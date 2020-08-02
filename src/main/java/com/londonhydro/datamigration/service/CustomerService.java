@@ -4,26 +4,33 @@ import com.londonhydro.datamigration.domain.Customer;
 import com.londonhydro.datamigration.models.atom.ContentType;
 import com.londonhydro.datamigration.models.atom.EntryType;
 import com.londonhydro.datamigration.models.atom.LinkType;
-import com.londonhydro.datamigration.models.atom.ObjectFactory;
-import com.londonhydro.datamigration.utils.NamespacePrefixMatcher;
+import com.londonhydro.datamigration.utils.UUIDGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import javax.xml.namespace.QName;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.Date;
 
 @Service
 public class CustomerService {
 
-    public String getAllCustomers() throws JAXBException, XMLStreamException {
+    @Autowired
+    UUIDGenerator uuidGenerator;
+
+    public String getAllCustomers() throws JAXBException, XMLStreamException, UnsupportedEncodingException {
+
+
+
         StringWriter sw = new StringWriter();
         EntryType entry = new EntryType();
         Customer customer = new Customer();
@@ -39,6 +46,8 @@ public class CustomerService {
         entry.setContent(content);
         entry.setId("123456789");
         entry.setTitle("Customer Entry");
+        entry.setPublished(Instant.now().truncatedTo(ChronoUnit.SECONDS).toString());
+        entry.setUpdated(Instant.now().truncatedTo(ChronoUnit.SECONDS).toString());
         entry.setLinks(Collections.singletonList(new LinkType("self","http://localhost:4200/api/customer")));
 
         XMLOutputFactory xmlOutputFactory = XMLOutputFactory.newInstance();
@@ -50,8 +59,9 @@ public class CustomerService {
         xmlStreamWriter.writeNamespace("xsi","http://www.w3.org/2001/XMLSchema-instance");
         xmlStreamWriter.writeCharacters("\n");
 
+
         xmlStreamWriter.writeStartElement("id");
-        xmlStreamWriter.writeCharacters("urn:uuid:f424dd95-d6ed-470b-aed6-24624630094e");
+        xmlStreamWriter.writeCharacters("urn:uuid:"+uuidGenerator.generateType3UUID("https://www.greenbutton.londonhydro.com","feed").toString());
         xmlStreamWriter.writeEndElement();
         xmlStreamWriter.writeCharacters("\n");
 
@@ -61,7 +71,7 @@ public class CustomerService {
         xmlStreamWriter.writeCharacters("\n");
 
         xmlStreamWriter.writeStartElement("updated");
-        xmlStreamWriter.writeCharacters(new Date()+"");
+        xmlStreamWriter.writeCharacters(Instant.now().truncatedTo(ChronoUnit.SECONDS).toString());
         xmlStreamWriter.writeEndElement();
         xmlStreamWriter.writeCharacters("\n");
 

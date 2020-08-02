@@ -7,6 +7,7 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.namespace.QName;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +19,9 @@ import java.util.Map;
         "id",
         "links",
         "title",
-        "content"
+        "content",
+        "published",
+        "updated"
 })
 public class EntryType {
 
@@ -42,6 +45,11 @@ public class EntryType {
     @XmlJavaTypeAdapter(ContentAdapter.class)
     protected ContentType content = new ContentType();
 
+    @XmlElement
+    private String published;
+
+    @XmlElement
+    private String updated;
 
     public String getId() {
         return id;
@@ -73,5 +81,21 @@ public class EntryType {
 
     public void setContent(ContentType content) {
         this.content = content;
+    }
+
+    public String getPublished() {
+        return published;
+    }
+
+    public void setPublished(String published) {
+        this.published = published;
+    }
+
+    public String getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(String updated) {
+        this.updated = updated;
     }
 }

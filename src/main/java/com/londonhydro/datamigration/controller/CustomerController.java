@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.stream.XMLStreamException;
+import java.io.UnsupportedEncodingException;
 
 @RestController
 public class CustomerController {
@@ -16,7 +17,7 @@ public class CustomerController {
     CustomerService customerService;
 
     @GetMapping(value = "/api/customer",produces = MediaType.APPLICATION_ATOM_XML_VALUE)
-    public String getAllCustomers() throws JAXBException, XMLStreamException {
+    public String getAllCustomers() throws JAXBException, XMLStreamException, UnsupportedEncodingException {
         return customerService.getAllCustomers();
     }
 }
