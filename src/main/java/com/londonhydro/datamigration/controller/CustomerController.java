@@ -20,4 +20,5 @@ public class CustomerController {
     public String getAllCustomers() throws JAXBException, XMLStreamException, UnsupportedEncodingException {
         return customerService.getAllCustomers();
     }
+
 }

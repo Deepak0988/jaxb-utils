@@ -9,6 +9,8 @@
 package com.londonhydro.datamigration.domain;
 
 import java.math.BigInteger;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -44,13 +46,19 @@ import javax.xml.bind.annotation.XmlType;
     "type",
     "justification"
 })
+@Embeddable
 public class Priority
     extends java.lang.Object
 {
 
     @XmlElement(required = true)
+    @Column(name="_rank")
     protected BigInteger rank;
+
+    @Column(name="type")
     protected String type;
+
+    @Column(name="justification")
     protected String justification;
 
     /**

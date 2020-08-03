@@ -4,6 +4,7 @@ import com.londonhydro.datamigration.domain.Customer;
 import com.londonhydro.datamigration.models.atom.ContentType;
 import com.londonhydro.datamigration.models.atom.EntryType;
 import com.londonhydro.datamigration.models.atom.LinkType;
+import com.londonhydro.datamigration.repository.CustomerRepo;
 import com.londonhydro.datamigration.utils.UUIDGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,37 +19,39 @@ import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
+import java.util.List;
 
 @Service
 public class CustomerService {
 
     @Autowired
     UUIDGenerator uuidGenerator;
+    @Autowired
+    CustomerRepo customerRepo;
 
     public String getAllCustomers() throws JAXBException, XMLStreamException, UnsupportedEncodingException {
+        List<Customer> customers = customerRepo.findAll();
 
-
-
+        List<EntryType> entries = new ArrayList<>();
         StringWriter sw = new StringWriter();
-        EntryType entry = new EntryType();
-        Customer customer = new Customer();
-        LinkType link = new LinkType();
-        ContentType content = new ContentType();
 
-        customer.setCustomerName("Deepak Chauhan");
-        customer.setKind("kind");
-        customer.setLocale("en");
-        customer.setPucNumber("12345");
+        customers.forEach(customer -> {
+            EntryType entry = new EntryType();
+            LinkType link = new LinkType();
+            ContentType content = new ContentType();
 
-        content.setCustomer(customer);
-        entry.setContent(content);
-        entry.setId("123456789");
-        entry.setTitle("Customer Entry");
-        entry.setPublished(Instant.now().truncatedTo(ChronoUnit.SECONDS).toString());
-        entry.setUpdated(Instant.now().truncatedTo(ChronoUnit.SECONDS).toString());
-        entry.setLinks(Collections.singletonList(new LinkType("self","http://localhost:4200/api/customer")));
+            content.setCustomer(customer);
+            entry.setContent(content);
+            entry.setId("123456789");
+            entry.setTitle("Customer Entry");
+            entry.setPublished(Instant.now().truncatedTo(ChronoUnit.SECONDS).toString());
+            entry.setUpdated(Instant.now().truncatedTo(ChronoUnit.SECONDS).toString());
+            entry.setLinks(Collections.singletonList(new LinkType("self","http://localhost:4200/api/customer")));
+            entries.add(entry);
+        });
+
 
         XMLOutputFactory xmlOutputFactory = XMLOutputFactory.newInstance();
         XMLStreamWriter xmlStreamWriter = xmlOutputFactory.createXMLStreamWriter(sw);
@@ -58,7 +61,6 @@ public class CustomerService {
         xmlStreamWriter.writeNamespace("","http://www.w3.org/2005/Atom");
         xmlStreamWriter.writeNamespace("xsi","http://www.w3.org/2001/XMLSchema-instance");
         xmlStreamWriter.writeCharacters("\n");
-
 
         xmlStreamWriter.writeStartElement("id");
         xmlStreamWriter.writeCharacters("urn:uuid:"+uuidGenerator.generateType3UUID("https://www.greenbutton.londonhydro.com","feed").toString());
@@ -87,12 +89,18 @@ public class CustomerService {
         marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "http://naesb.org/espi espiDerived.xsd");
         marshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,Boolean.TRUE);
-        marshaller.marshal(entry,xmlStreamWriter);
-        marshaller.marshal(entry,xmlStreamWriter);
+        entries.forEach(entry -> {
+            try {
+                marshaller.marshal(entry,xmlStreamWriter);
+            } catch (JAXBException e) {
+                e.printStackTrace();
+            }
+        });
 
         xmlStreamWriter.writeCharacters("\n");
         xmlStreamWriter.writeEndElement();
         xmlStreamWriter.writeEndDocument();
+
         return sw.toString();
     }
 }

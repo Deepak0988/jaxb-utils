@@ -8,6 +8,7 @@
 
 package com.londonhydro.datamigration.domain;
 
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -42,9 +43,10 @@ import javax.xml.bind.annotation.XmlType;
  * 
  * 
  */
-@XmlRootElement(name = "Customer", namespace = "http://naesb.org/espi")//edited
+@XmlRootElement(name = "Customer", namespace = "http://naesb.org/espi")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Customer", propOrder = {
+        "id",
     "kind",
     "specialNeed",
     "vip",
@@ -54,17 +56,37 @@ import javax.xml.bind.annotation.XmlType;
     "locale",
     "customerName"
 })
+@Entity
+@Table(name = "customer")
 public class Customer
     extends OrganisationRole
 {
+    @Id
+    @Column(name = "id")
+    protected String id;
 
+    @Column(name="kind")
     protected String kind;
+
+    @Column(name="special_need")
     protected String specialNeed;
+
+    @Column(name="vip")
     protected Boolean vip;
+
+    @Column(name="puc_number")
     protected String pucNumber;
+
+    @Embedded
     protected Status status;
+
+    @Embedded
     protected Priority priority;
+
+    @Column(name="locale")
     protected String locale;
+
+    @Column(name="customer_name")
     protected String customerName;
 
     /**
@@ -259,4 +281,11 @@ public class Customer
         this.customerName = value;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }

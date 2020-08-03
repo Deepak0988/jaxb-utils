@@ -8,6 +8,8 @@
 
 package com.londonhydro.datamigration.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
@@ -44,13 +46,21 @@ import javax.xml.bind.annotation.XmlType;
     "remark",
     "reason"
 })
+@Embeddable
 public class Status
     extends java.lang.Object
 {
 
+    @Column(name="value")
     protected String value;
+
+    @Column(name="date_time")
     protected Long dateTime;
+
+    @Column(name="remarks")
     protected String remark;
+
+    @Column(name="reason")
     protected String reason;
 
     /**
