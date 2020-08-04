@@ -6,12 +6,8 @@ import com.londonhydro.datamigration.models.atom.adapters.LinkAdapter;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import javax.xml.namespace.QName;
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @XmlRootElement(name = "entry")
 @XmlAccessorType(XmlAccessType.FIELD)

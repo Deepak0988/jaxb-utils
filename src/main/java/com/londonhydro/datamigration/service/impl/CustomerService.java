@@ -7,4 +7,5 @@ import java.io.UnsupportedEncodingException;
 
 public interface CustomerService {
     public String getAllCustomers(HttpServletRequest request) throws JAXBException, XMLStreamException, UnsupportedEncodingException;
+    public String getCustomerById(HttpServletRequest request, String id) throws JAXBException, XMLStreamException, UnsupportedEncodingException;
 }
