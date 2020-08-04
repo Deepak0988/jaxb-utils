@@ -5,6 +5,7 @@ import com.londonhydro.datamigration.models.atom.ContentType;
 import com.londonhydro.datamigration.models.atom.EntryType;
 import com.londonhydro.datamigration.models.atom.LinkType;
 import com.londonhydro.datamigration.repository.CustomerRepo;
+import com.londonhydro.datamigration.service.CustomerService;
 import com.londonhydro.datamigration.utils.FeedGenerator;
 import com.londonhydro.datamigration.utils.UUIDGenerator;
 import org.springframework.beans.factory.annotation.Autowired;

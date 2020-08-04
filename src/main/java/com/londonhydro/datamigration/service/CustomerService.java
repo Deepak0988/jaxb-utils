@@ -1,4 +1,4 @@
-package com.londonhydro.datamigration.service.impl;
+package com.londonhydro.datamigration.service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.JAXBException;

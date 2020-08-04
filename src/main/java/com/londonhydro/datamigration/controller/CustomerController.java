@@ -1,6 +1,6 @@
 package com.londonhydro.datamigration.controller;
 
-import com.londonhydro.datamigration.service.impl.CustomerService;
+import com.londonhydro.datamigration.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
