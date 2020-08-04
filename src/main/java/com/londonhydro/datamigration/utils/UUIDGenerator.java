@@ -7,6 +7,10 @@ import java.util.UUID;
 @Component
 public class UUIDGenerator {
 
+    public static UUID generateType3UUID(String namespace){
+        return UUID.nameUUIDFromBytes(namespace.getBytes());
+    }
+
     public static UUID generateType3UUID(String namespace, String name) throws UnsupportedEncodingException {
         byte[] nameSpaceBytes = bytesFromUUID(namespace);
         byte[] nameBytes = name.getBytes("UTF-8");

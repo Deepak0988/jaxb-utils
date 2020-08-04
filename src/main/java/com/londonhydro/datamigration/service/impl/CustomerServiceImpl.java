@@ -1,4 +1,4 @@
-package com.londonhydro.datamigration.service;
+package com.londonhydro.datamigration.service.impl;
 
 import com.londonhydro.datamigration.domain.Customer;
 import com.londonhydro.datamigration.models.atom.ContentType;
@@ -9,6 +9,7 @@ import com.londonhydro.datamigration.utils.UUIDGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -24,31 +25,35 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-public class CustomerService {
+public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     UUIDGenerator uuidGenerator;
     @Autowired
     CustomerRepo customerRepo;
 
-    public String getAllCustomers() throws JAXBException, XMLStreamException, UnsupportedEncodingException {
+    @Override
+    public String getAllCustomers(HttpServletRequest request) throws JAXBException, XMLStreamException, UnsupportedEncodingException {
         List<Customer> customers = customerRepo.findAll();
 
         List<EntryType> entries = new ArrayList<>();
         StringWriter sw = new StringWriter();
+        String url = request.getRequestURL().toString();
 
         customers.forEach(customer -> {
             EntryType entry = new EntryType();
-            LinkType link = new LinkType();
+            List<LinkType> links = new ArrayList<>();
             ContentType content = new ContentType();
-
+            String selfUrl = url+"/"+customer.getId();
             content.setCustomer(customer);
             entry.setContent(content);
-            entry.setId("123456789");
+            entry.setId("urn:uuid:"+uuidGenerator.generateType3UUID(selfUrl).toString());
             entry.setTitle("Customer Entry");
             entry.setPublished(Instant.now().truncatedTo(ChronoUnit.SECONDS).toString());
             entry.setUpdated(Instant.now().truncatedTo(ChronoUnit.SECONDS).toString());
-            entry.setLinks(Collections.singletonList(new LinkType("self","http://localhost:4200/api/customer")));
+            links.add(new LinkType("up",url));
+            links.add(new LinkType("self",selfUrl));
+            entry.setLinks(links);
             entries.add(entry);
         });
 
@@ -63,7 +68,7 @@ public class CustomerService {
         xmlStreamWriter.writeCharacters("\n");
 
         xmlStreamWriter.writeStartElement("id");
-        xmlStreamWriter.writeCharacters("urn:uuid:"+uuidGenerator.generateType3UUID("https://www.greenbutton.londonhydro.com","feed").toString());
+        xmlStreamWriter.writeCharacters("urn:uuid:"+uuidGenerator.generateType3UUID("https://www.londonhydro.com").toString());
         xmlStreamWriter.writeEndElement();
         xmlStreamWriter.writeCharacters("\n");
 
@@ -78,7 +83,7 @@ public class CustomerService {
         xmlStreamWriter.writeCharacters("\n");
 
         xmlStreamWriter.writeStartElement("link");
-        xmlStreamWriter.writeAttribute("href","https://api.londonhydro.com/espi/1_1/resource/Batch/RetailCustomer/1000123637/UsagePoint/1000453363");
+        xmlStreamWriter.writeAttribute("href",url);
         xmlStreamWriter.writeAttribute("rel","self");
         xmlStreamWriter.writeEndElement();
         xmlStreamWriter.writeCharacters("\n");
