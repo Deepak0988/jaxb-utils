@@ -8,6 +8,9 @@
 
 package com.londonhydro.datamigration.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -48,6 +51,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "dstStartRule",
     "tzOffset"
 })
+@Entity
+@Table(name="time_configuration")
 public class TimeConfiguration
     extends IdentifiedObject
 {
@@ -55,12 +60,19 @@ public class TimeConfiguration
     @XmlElement(required = true, type = String.class)
     @XmlJavaTypeAdapter(HexBinaryAdapter.class)
     @XmlSchemaType(name = "hexBinary")
+    @Column(name = "dst_end_rule")
     protected byte[] dstEndRule;
+
+    @Column(name = "dst_offset")
     protected long dstOffset;
+
     @XmlElement(required = true, type = String.class)
     @XmlJavaTypeAdapter(HexBinaryAdapter.class)
     @XmlSchemaType(name = "hexBinary")
+    @Column(name = "dst_start_rule")
     protected byte[] dstStartRule;
+
+    @Column(name = "tz_offset")
     protected long tzOffset;
 
     /**

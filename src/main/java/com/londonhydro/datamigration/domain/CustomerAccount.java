@@ -10,6 +10,7 @@ package com.londonhydro.datamigration.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
@@ -50,15 +51,29 @@ import javax.xml.bind.annotation.XmlType;
     "contactInfo",
     "accountId"
 })
+@Entity
+@Table(name="customer_account")
 public class CustomerAccount
     extends Document
 {
 
+    @Column(name="billing_cycle")
     protected String billingCycle;
+
+    @Column(name="budget_bill")
     protected String budgetBill;
+
+    @Column(name="last_bill_amount")
     protected Long lastBillAmount;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "customerAccountId")
     protected List<AccountNotification> notifications;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="contact_info")
     protected Organisation contactInfo;
+
+    @Column(name="account_id")
     protected String accountId;
 
     /**

@@ -8,10 +8,8 @@
 
 package com.londonhydro.datamigration.domain;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.persistence.*;
+import javax.xml.bind.annotation.*;
 
 
 /**
@@ -45,17 +43,35 @@ import javax.xml.bind.annotation.XmlType;
     "note",
     "customerNotificationKind"
 })
+@Entity
+@Table(name="account_notification")
 public class AccountNotification
     extends Object
 {
+    @XmlTransient
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
 
     @XmlElement(required = true)
+    @Column(name="method_kind")
     protected String methodKind;
+
+    @Column(name="time")
     protected long time;
+
     @XmlElement(required = true)
+    @Column(name="note")
     protected String note;
+
     @XmlElement(required = true)
+    @Column(name="customer_notification_kind")
     protected String customerNotificationKind;
+
+    @XmlTransient
+    @ManyToOne
+    @JoinColumn(name="customer_account_id")
+    protected CustomerAccount customerAccountId;
 
     /**
      * Gets the value of the methodKind property.
@@ -145,4 +161,19 @@ public class AccountNotification
         this.customerNotificationKind = value;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public CustomerAccount getCustomerAccountId() {
+        return customerAccountId;
+    }
+
+    public void setCustomerAccountId(CustomerAccount customerAccountId) {
+        this.customerAccountId = customerAccountId;
+    }
 }

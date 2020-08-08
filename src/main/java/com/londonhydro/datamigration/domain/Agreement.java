@@ -8,6 +8,9 @@
 
 package com.londonhydro.datamigration.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.MappedSuperclass;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlSeeAlso;
@@ -44,11 +47,14 @@ import javax.xml.bind.annotation.XmlType;
 @XmlSeeAlso({
     CustomerAgreement.class
 })
+@MappedSuperclass
 public class Agreement
     extends Document
 {
-
+    @Column(name="sign_date")
     protected Long signDate;
+
+    @Embedded
     protected DateTimeInterval validityInterval;
 
     /**

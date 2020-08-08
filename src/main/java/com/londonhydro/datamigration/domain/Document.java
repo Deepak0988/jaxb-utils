@@ -8,6 +8,7 @@
 
 package com.londonhydro.datamigration.domain;
 
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlSeeAlso;
@@ -63,20 +64,44 @@ import javax.xml.bind.annotation.XmlType;
     CustomerAccount.class,
     Agreement.class
 })
+@MappedSuperclass
 public class Document
     extends IdentifiedObject
 {
-
+    @Column(name="type")
     protected String type;
+
+    @Column(name="author_name")
     protected String authorName;
+
+    @Column(name="creation_date_time")
     protected Long createdDateTime;
+
+    @Column(name="last_modified_date_time")
     protected Long lastModifiedDateTime;
+
+    @Column(name="revision_number")
     protected String revisionNumber;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="electronic_address")
     protected ElectronicAddress electronicAddress;
+
+    @Column(name="subject")
     protected String subject;
+
+    @Column(name="title")
     protected String title;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="doc_status")
     protected Status docStatus;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="status")
     protected Status status;
+
+    @Column(name="comment")
     protected String comment;
 
     /**

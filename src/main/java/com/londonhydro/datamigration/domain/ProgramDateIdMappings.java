@@ -8,6 +8,7 @@
 
 package com.londonhydro.datamigration.domain;
 
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
@@ -38,10 +39,13 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "ProgramDateIdMappings", propOrder = {
     "programDateIdMapping"
 })
+@Entity
+@Table(name="program_date_id_mappings")
 public class ProgramDateIdMappings
     extends IdentifiedObject
 {
-
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="program_date_id_mapping")
     protected ProgramDateIdMapping programDateIdMapping;
 
     /**

@@ -8,10 +8,8 @@
 
 package com.londonhydro.datamigration.domain;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.persistence.*;
+import javax.xml.bind.annotation.*;
 
 
 /**
@@ -45,16 +43,29 @@ import javax.xml.bind.annotation.XmlType;
     "name",
     "note"
 })
+@Entity
+@Table(name="program_date_id_mapping")
 public class ProgramDateIdMapping
     extends java.lang.Object
 {
+    @XmlTransient
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
 
     @XmlElement(required = true)
+    @Column(name="program_datatype")
     protected String programDateType;
+
     @XmlElement(required = true)
+    @Column(name = "code")
     protected String code;
+
     @XmlElement(required = true)
+    @Column(name = "name")
     protected String name;
+
+    @Column(name = "note")
     protected String note;
 
     /**
@@ -153,4 +164,11 @@ public class ProgramDateIdMapping
         this.note = value;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

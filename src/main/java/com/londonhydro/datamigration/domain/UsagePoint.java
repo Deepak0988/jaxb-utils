@@ -8,11 +8,8 @@
 
 package com.londonhydro.datamigration.domain;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlSchemaType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlValue;
+import javax.persistence.*;
+import javax.xml.bind.annotation.*;
 
 
 /**
@@ -37,11 +34,25 @@ import javax.xml.bind.annotation.XmlValue;
 @XmlType(name = "UsagePoint", propOrder = {
     "value"
 })
+@Entity
+@Table(name="usage_point")
 public class UsagePoint {
+
+    @XmlTransient
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
 
     @XmlValue
     @XmlSchemaType(name = "anyURI")
+    @Column(name="value")
     protected String value;
+
+    @XmlTransient
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="usage_points_id")
+    protected UsagePoints usagePointsId;
+
 
     /**
      * Gets the value of the value property.
@@ -67,4 +78,20 @@ public class UsagePoint {
         this.value = value;
     }
 
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public UsagePoints getUsagePointsId() {
+        return usagePointsId;
+    }
+
+    public void setUsagePointsId(UsagePoints usagePointsId) {
+        this.usagePointsId = usagePointsId;
+    }
 }

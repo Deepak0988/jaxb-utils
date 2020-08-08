@@ -46,7 +46,6 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "Customer", namespace = "http://naesb.org/espi")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Customer", propOrder = {
-        "id",
     "kind",
     "specialNeed",
     "vip",
@@ -59,11 +58,7 @@ import javax.xml.bind.annotation.XmlType;
 @Entity
 @Table(name = "customer")
 public class Customer
-    extends OrganisationRole
-{
-    @Id
-    @Column(name = "id")
-    protected String id;
+    extends OrganisationRole {
 
     @Column(name="kind")
     protected String kind;
@@ -77,10 +72,12 @@ public class Customer
     @Column(name="puc_number")
     protected String pucNumber;
 
-    @Embedded
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name= "status")
     protected Status status;
 
-    @Embedded
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "priority")
     protected Priority priority;
 
     @Column(name="locale")
@@ -279,13 +276,5 @@ public class Customer
      */
     public void setCustomerName(String value) {
         this.customerName = value;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 }

@@ -8,6 +8,9 @@
 
 package com.londonhydro.datamigration.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
@@ -60,21 +63,44 @@ import javax.xml.bind.annotation.XmlType;
     "addressGeneral3",
     "withinTownLimits"
 })
+@Embeddable
 public class StreetDetail
     extends java.lang.Object
 {
-
+    @Column(name="street_number")
     protected String number;
+
+    @Column(name="street_name")
     protected String name;
+
+    @Column(name="street_suffix")
     protected String suffix;
+
+    @Column(name="street_prefix")
     protected String prefix;
+
+    @Column(name="street_type")
     protected String type;
+
+    @Column(name="street_code")
     protected String code;
+
+    @Column(name="street_building_name")
     protected String buildingName;
+
+    @Column(name="street_suite_number")
     protected String suiteNumber;
+
+    @Column(name="street_address_general")
     protected String addressGeneral;
+
+    @Column(name="street_address_general2")
     protected String addressGeneral2;
+
+    @Column(name="street_address_general3")
     protected String addressGeneral3;
+
+    @Column(name="street_within_town_limits")
     protected Boolean withinTownLimits;
 
     /**

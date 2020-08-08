@@ -8,6 +8,9 @@
 
 package com.londonhydro.datamigration.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
@@ -42,12 +45,18 @@ import javax.xml.bind.annotation.XmlType;
     "issuerIdentificationNumber",
     "effectiveDate"
 })
+@Entity
+@Table(name="service_supplier")
 public class ServiceSupplier
     extends OrganisationRole
 {
-
+    @Column(name="kind")
     protected String kind;
+
+    @Column(name="issuer_identification_number")
     protected String issuerIdentificationNumber;
+
+    @Column(name ="effective_date")
     protected Long effectiveDate;
 
     /**

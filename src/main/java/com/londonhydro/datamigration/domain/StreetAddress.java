@@ -8,8 +8,10 @@
 
 package com.londonhydro.datamigration.domain;
 
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -46,14 +48,30 @@ import javax.xml.bind.annotation.XmlType;
     "postalCode",
     "poBox"
 })
+@Entity
+@Table(name="street_address")
 public class StreetAddress
     extends java.lang.Object
 {
+    @XmlTransient
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
 
+    @Embedded
     protected StreetDetail streetDetail;
+
+    @Embedded
     protected TownDetail townDetail;
+
+    @ManyToOne(fetch =  FetchType.EAGER)
+    @JoinColumn(name = "status")
     protected Status status;
+
+    @Column(name="postal_code")
     protected String postalCode;
+
+    @Column(name="po_box")
     protected String poBox;
 
     /**
@@ -176,4 +194,11 @@ public class StreetAddress
         this.poBox = value;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

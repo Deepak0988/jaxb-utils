@@ -8,8 +8,10 @@
 
 package com.londonhydro.datamigration.domain;
 
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -40,12 +42,27 @@ import javax.xml.bind.annotation.XmlType;
     "kind",
     "value"
 })
+@Entity
+@Table(name="meter_multiplier")
 public class MeterMultiplier
     extends Object
 {
 
+    @XmlTransient
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
+
+    @Column(name = "kind")
     protected String kind;
+
+    @Column(name="value")
     protected Float value;
+
+    @XmlTransient
+    @ManyToOne(fetch =  FetchType.EAGER)
+    @JoinColumn(name = "meter_id")
+    protected Meter meterId;
 
     /**
      * Gets the value of the kind property.
@@ -95,4 +112,19 @@ public class MeterMultiplier
         this.value = value;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Meter getMeterId() {
+        return meterId;
+    }
+
+    public void setMeterId(Meter meterId) {
+        this.meterId = meterId;
+    }
 }

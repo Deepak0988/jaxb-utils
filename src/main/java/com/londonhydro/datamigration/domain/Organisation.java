@@ -8,6 +8,7 @@
 
 package com.londonhydro.datamigration.domain;
 
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
@@ -48,15 +49,32 @@ import javax.xml.bind.annotation.XmlType;
     "electronicAddress",
     "organisationName"
 })
+@Entity
+@Table(name="organisation")
 public class Organisation
-    extends IdentifiedObject
-{
+    extends IdentifiedObject{
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "street_address")
     protected StreetAddress streetAddress;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "postal_address")
     protected StreetAddress postalAddress;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "phone1")
     protected TelephoneNumber phone1;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "phone2")
     protected TelephoneNumber phone2;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="electronic_address")
     protected ElectronicAddress electronicAddress;
+
+    @Column(name="organisation_name")
     protected String organisationName;
 
     /**

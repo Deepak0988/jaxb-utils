@@ -8,8 +8,10 @@
 
 package com.londonhydro.datamigration.domain;
 
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -42,13 +44,30 @@ import javax.xml.bind.annotation.XmlType;
     "yPosition",
     "zPosition"
 })
+@Entity
+@Table(name="position_point")
 public class PositionPoint
     extends java.lang.Object
 {
 
+    @XmlTransient
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
+
+    @Column(name="xposition")
     protected String xPosition;
+
+    @Column(name="yposition")
     protected String yPosition;
+
+    @Column(name="zposition")
     protected String zPosition;
+
+    @XmlTransient
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="service_location_id")
+    protected ServiceLocation serviceLocationId;
 
     /**
      * Gets the value of the xPosition property.
@@ -122,4 +141,19 @@ public class PositionPoint
         this.zPosition = value;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public ServiceLocation getServiceLocationId() {
+        return serviceLocationId;
+    }
+
+    public void setServiceLocationId(ServiceLocation serviceLocationId) {
+        this.serviceLocationId = serviceLocationId;
+    }
 }

@@ -8,6 +8,8 @@
 
 package com.londonhydro.datamigration.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
@@ -48,15 +50,27 @@ import javax.xml.bind.annotation.XmlType;
     "stateOrProvince",
     "country"
 })
+@Embeddable
 public class TownDetail
     extends java.lang.Object
 {
 
+    @Column(name="town_code")
     protected String code;
+
+    @Column(name="town_section")
     protected String section;
+
+    @Column(name="town_name")
     protected String name;
+
+    @Column(name="town_county")
     protected String county;
+
+    @Column(name="town_state_or_province")
     protected String stateOrProvince;
+
+    @Column(name="town_country")
     protected String country;
 
     /**

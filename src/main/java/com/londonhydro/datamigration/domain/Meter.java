@@ -8,8 +8,11 @@
 
 package com.londonhydro.datamigration.domain;
 
+import com.londonhydro.datamigration.utils.FeedGenerator;
+
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -46,13 +49,20 @@ import javax.xml.bind.annotation.XmlType;
     "meterMultipliers",
     "intervalLength"
 })
+@Entity
+@Table(name="Meter")
 public class Meter
     extends EndDevice
 {
 
+    @Column(name="form_number")
     protected String formNumber;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "meterId")
     @XmlElement(name = "MeterMultipliers")
     protected List<MeterMultiplier> meterMultipliers;
+
+    @Column(name="interval_length")
     @XmlSchemaType(name = "unsignedInt")
     protected Long intervalLength;
 

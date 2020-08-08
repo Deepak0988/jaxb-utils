@@ -10,6 +10,7 @@ package com.londonhydro.datamigration.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlSeeAlso;
@@ -62,19 +63,45 @@ import javax.xml.bind.annotation.XmlType;
 @XmlSeeAlso({
     WorkLocation.class
 })
+@MappedSuperclass
 public class Location
     extends IdentifiedObject
 {
 
+    @Column(name="type")
     protected String type;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="main_address")
     protected StreetAddress mainAddress;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="secondary_address")
     protected StreetAddress secondaryAddress;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="phone1")
     protected TelephoneNumber phone1;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="phone2")
     protected TelephoneNumber phone2;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="electronic_address")
     protected ElectronicAddress electronicAddress;
+
+    @Column(name="go_info_reference")
     protected String geoInfoReference;
+
+    @Column(name="direction")
     protected String direction;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="status")
     protected Status status;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "serviceLocationId")
     protected List<PositionPoint> positionPoints;
 
     /**

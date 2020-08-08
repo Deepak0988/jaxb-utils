@@ -8,6 +8,8 @@
 
 package com.londonhydro.datamigration.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlSchemaType;
@@ -41,12 +43,16 @@ import javax.xml.bind.annotation.XmlType;
     "duration",
     "start"
 })
+@Embeddable
 public class DateTimeInterval
     extends Object
 {
 
     @XmlSchemaType(name = "unsignedInt")
+    @Column(name="duration")
     protected Long duration;
+
+    @Column(name="start")
     protected Long start;
 
     /**

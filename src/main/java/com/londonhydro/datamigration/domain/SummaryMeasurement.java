@@ -8,10 +8,8 @@
 
 package com.londonhydro.datamigration.domain;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlSchemaType;
-import javax.xml.bind.annotation.XmlType;
+import javax.persistence.*;
+import javax.xml.bind.annotation.*;
 
 
 /**
@@ -47,14 +45,29 @@ import javax.xml.bind.annotation.XmlType;
     "value",
     "readingTypeRef"
 })
+@Entity
+@Table(name="summary_measurement")
 public class SummaryMeasurement
     extends java.lang.Object
 {
+    @XmlTransient
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
 
+    @Column(name="power_of_ten_multiplier")
     protected String powerOfTenMultiplier;
+
+    @Column(name="timestamp")
     protected Long timeStamp;
+
+    @Column(name="uom")
     protected String uom;
+
+    @Column(name="value")
     protected Long value;
+
+    @Column(name="reading_type_ref")
     @XmlSchemaType(name = "anyURI")
     protected String readingTypeRef;
 
@@ -178,4 +191,11 @@ public class SummaryMeasurement
         this.readingTypeRef = value;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

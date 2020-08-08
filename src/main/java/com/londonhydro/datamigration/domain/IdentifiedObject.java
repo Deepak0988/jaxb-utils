@@ -8,10 +8,8 @@
 
 package com.londonhydro.datamigration.domain;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlSeeAlso;
-import javax.xml.bind.annotation.XmlType;
+import javax.persistence.*;
+import javax.xml.bind.annotation.*;
 
 
 /**
@@ -50,11 +48,18 @@ import javax.xml.bind.annotation.XmlType;
     OrganisationRole.class,
     Location.class
 })
-public class IdentifiedObject
-    extends Object
-{
+@MappedSuperclass
+public class IdentifiedObject extends Object {
 
+    @XmlTransient
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
+
+    @Transient
     protected BatchItemInfo batchItemInfo;
+
+    @Column(name="identified_object_name")
     protected String name;
 
     /**
@@ -105,4 +110,11 @@ public class IdentifiedObject
         this.name = value;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

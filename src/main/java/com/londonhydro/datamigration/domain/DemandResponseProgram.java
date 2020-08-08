@@ -10,11 +10,8 @@ package com.londonhydro.datamigration.domain;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlSchemaType;
-import javax.xml.bind.annotation.XmlType;
+import javax.persistence.*;
+import javax.xml.bind.annotation.*;
 
 
 /**
@@ -52,17 +49,41 @@ import javax.xml.bind.annotation.XmlType;
     "capacityReservationLevel",
     "drProgramNomination"
 })
+@Entity
+@Table(name="demand_response_program")
 public class DemandResponseProgram {
 
+    @XmlTransient
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
+
+    @Column(name="program_name")
     protected String programName;
+
+    @Column(name="enrollment_status")
     protected String enrollmentStatus;
+
     @XmlSchemaType(name = "anyURI")
+    @Column(name="program_description")
     protected String programDescription;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "demandResponseProgramId")
     protected List<ProgramDate> programDate;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="capacity_reservation_level")
     protected SummaryMeasurement capacityReservationLevel;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="dr_program_nomination")
     @XmlElement(name = "DRProgramNomination")
     protected SummaryMeasurement drProgramNomination;
 
+    @XmlTransient
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="customer_agreement_id")
+    protected CustomerAgreement customerAgreementId;
     /**
      * Gets the value of the programName property.
      * 
@@ -212,4 +233,19 @@ public class DemandResponseProgram {
         this.drProgramNomination = value;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public CustomerAgreement getCustomerAgreementId() {
+        return customerAgreementId;
+    }
+
+    public void setCustomerAgreementId(CustomerAgreement customerAgreementId) {
+        this.customerAgreementId = customerAgreementId;
+    }
 }

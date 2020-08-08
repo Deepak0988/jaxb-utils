@@ -8,8 +8,10 @@
 
 package com.londonhydro.datamigration.domain;
 
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -40,10 +42,25 @@ import javax.xml.bind.annotation.XmlType;
     "programDate",
     "programDateDescription"
 })
+@Entity
+@Table(name="program_date")
 public class ProgramDate {
 
+    @XmlTransient
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
+
+    @Column(name="program_date")
     protected Long programDate;
+
+    @Column(name="program_date_description")
     protected String programDateDescription;
+
+    @XmlTransient
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="demand_response_program_id")
+    protected DemandResponseProgram demandResponseProgramId;
 
     /**
      * Gets the value of the programDate property.
@@ -93,4 +110,19 @@ public class ProgramDate {
         this.programDateDescription = value;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public DemandResponseProgram getDemandResponseProgramId() {
+        return demandResponseProgramId;
+    }
+
+    public void setDemandResponseProgramId(DemandResponseProgram demandResponseProgramId) {
+        this.demandResponseProgramId = demandResponseProgramId;
+    }
 }

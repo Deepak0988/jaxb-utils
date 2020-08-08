@@ -8,8 +8,10 @@
 
 package com.londonhydro.datamigration.domain;
 
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -52,17 +54,39 @@ import javax.xml.bind.annotation.XmlType;
     "userID",
     "password"
 })
+@Entity
+@Table(name="electronic_address")
 public class ElectronicAddress
     extends Object
 {
 
+    @XmlTransient
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
+
+    @Column(name="lan")
     protected String lan;
+
+    @Column(name="mac")
     protected String mac;
+
+    @Column(name="email1")
     protected String email1;
+
+    @Column(name="email2")
     protected String email2;
+
+    @Column(name="web")
     protected String web;
+
+    @Column(name="radio")
     protected String radio;
+
+    @Column(name="user_id")
     protected String userID;
+
+    @Column(name="password")
     protected String password;
 
     /**
@@ -257,4 +281,11 @@ public class ElectronicAddress
         this.password = value;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

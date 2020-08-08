@@ -9,12 +9,8 @@
 package com.londonhydro.datamigration.domain;
 
 import java.math.BigInteger;
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.persistence.*;
+import javax.xml.bind.annotation.*;
 
 
 /**
@@ -46,10 +42,16 @@ import javax.xml.bind.annotation.XmlType;
     "type",
     "justification"
 })
-@Embeddable
+@Entity
+@Table(name="priority")
 public class Priority
     extends java.lang.Object
 {
+
+    @XmlTransient
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @XmlElement(required = true)
     @Column(name="_rank")
@@ -133,4 +135,11 @@ public class Priority
         this.justification = value;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

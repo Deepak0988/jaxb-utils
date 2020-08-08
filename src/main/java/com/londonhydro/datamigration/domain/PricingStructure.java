@@ -8,11 +8,8 @@
 
 package com.londonhydro.datamigration.domain;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlSchemaType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlValue;
+import javax.persistence.*;
+import javax.xml.bind.annotation.*;
 
 
 /**
@@ -37,11 +34,25 @@ import javax.xml.bind.annotation.XmlValue;
 @XmlType(name = "PricingStructure", propOrder = {
     "value"
 })
+@Entity
+@Table(name="pricing_structure")
 public class PricingStructure {
+
+    @XmlTransient
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
 
     @XmlValue
     @XmlSchemaType(name = "anyURI")
+    @Column(name="pricing_structure_value")
     protected String value;
+
+
+    @XmlTransient
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="customer_agreement_id")
+    protected CustomerAgreement customerAgreementId;
 
     /**
      * Gets the value of the value property.
@@ -67,4 +78,19 @@ public class PricingStructure {
         this.value = value;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public CustomerAgreement getCustomerAgreementId() {
+        return customerAgreementId;
+    }
+
+    public void setCustomerAgreementId(CustomerAgreement customerAgreementId) {
+        this.customerAgreementId = customerAgreementId;
+    }
 }

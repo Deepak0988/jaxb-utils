@@ -8,6 +8,7 @@
 
 package com.londonhydro.datamigration.domain;
 
+import javax.persistence.MappedSuperclass;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlSeeAlso;
@@ -37,6 +38,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlSeeAlso({
     ServiceLocation.class
 })
+@MappedSuperclass
 public class WorkLocation
     extends Location
 {

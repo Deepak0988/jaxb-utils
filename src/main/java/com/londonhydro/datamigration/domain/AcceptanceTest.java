@@ -8,8 +8,10 @@
 
 package com.londonhydro.datamigration.domain;
 
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -42,12 +44,24 @@ import javax.xml.bind.annotation.XmlType;
     "success",
     "dateTime"
 })
+@Entity
+@Table(name="acceptance_test")
 public class AcceptanceTest
     extends Object
 {
 
+    @XmlTransient
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
+
+    @Column(name="type")
     protected String type;
+
+    @Column(name="success")
     protected Boolean success;
+
+    @Column(name="datetime")
     protected Long dateTime;
 
     /**
@@ -122,4 +136,12 @@ public class AcceptanceTest
         this.dateTime = value;
     }
 
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

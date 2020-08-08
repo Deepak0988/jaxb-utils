@@ -8,8 +8,10 @@
 
 package com.londonhydro.datamigration.domain;
 
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -48,15 +50,32 @@ import javax.xml.bind.annotation.XmlType;
     "removalDate",
     "retiredDate"
 })
+@Entity
+@Table(name="lifecycle_date")
 public class LifecycleDate
     extends Object
 {
+    @XmlTransient
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
 
+    @Column(name="manufactured_date")
     protected Long manufacturedDate;
+
+    @Column(name="purchase_date")
     protected Long purchaseDate;
+
+    @Column(name="received_date")
     protected Long receivedDate;
+
+    @Column(name="installation_date")
     protected Long installationDate;
+
+    @Column(name="removal_date")
     protected Long removalDate;
+
+    @Column(name="retired_date")
     protected Long retiredDate;
 
     /**

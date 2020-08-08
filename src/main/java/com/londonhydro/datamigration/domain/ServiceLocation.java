@@ -10,6 +10,7 @@ package com.londonhydro.datamigration.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -49,15 +50,26 @@ import javax.xml.bind.annotation.XmlType;
     "usagePoints",
     "outageBlock"
 })
+@Entity
+@Table(name="service_location")
 public class ServiceLocation
     extends WorkLocation
 {
 
+    @Column(name="access_method")
     protected String accessMethod;
+
+    @Column(name="site_access_problem")
     protected String siteAccessProblem;
+
+    @Column(name="needs_inspection")
     protected Boolean needsInspection;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "serviceLocationId")
     @XmlElement(name = "UsagePoints")
     protected List<UsagePoints> usagePoints;
+
+    @Column(name="outage_block")
     protected String outageBlock;
 
     /**

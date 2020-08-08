@@ -10,6 +10,7 @@ package com.londonhydro.datamigration.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -55,19 +56,36 @@ import javax.xml.bind.annotation.XmlType;
     "futureStatus",
     "agreementId"
 })
+@Entity
+@Table(name="customer_agreement")
 public class CustomerAgreement
     extends Agreement
 {
 
+    @Column(name="load_mgmt")
     protected String loadMgmt;
+
+    @Column(name="is_prepay")
     protected Boolean isPrePay;
+
+    @Column(name="shut_off_date_time")
     protected Long shutOffDateTime;
+
     @XmlElement(name = "DemandResponseProgram")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customerAgreementId")
     protected List<DemandResponseProgram> demandResponseProgram;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customerAgreementId")
     @XmlElement(name = "PricingStructures")
     protected List<PricingStructure> pricingStructures;
+
+    @Column(name="currency")
     protected String currency;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customerAgreementId")
     protected List<Status> futureStatus;
+
+    @Column(name="agreement_id")
     protected String agreementId;
 
     /**

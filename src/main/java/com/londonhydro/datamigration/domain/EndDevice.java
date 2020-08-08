@@ -8,6 +8,8 @@
 
 package com.londonhydro.datamigration.domain;
 
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlSeeAlso;
@@ -50,13 +52,21 @@ import javax.xml.bind.annotation.XmlType;
 @XmlSeeAlso({
     Meter.class
 })
+@MappedSuperclass
 public class EndDevice
     extends AssetContainer
 {
 
+    @Column(name="is_virtual")
     protected Boolean isVirtual;
+
+    @Column(name="is_pan")
     protected Boolean isPan;
+
+    @Column(name="install_code")
     protected String installCode;
+
+    @Column(name="amr_system")
     protected String amrSystem;
 
     /**

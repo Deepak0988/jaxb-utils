@@ -8,10 +8,10 @@
 
 package com.londonhydro.datamigration.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -46,10 +46,15 @@ import javax.xml.bind.annotation.XmlType;
     "remark",
     "reason"
 })
-@Embeddable
+@Entity
+@Table(name="status")
 public class Status
     extends java.lang.Object
 {
+    @XmlTransient
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
 
     @Column(name="value")
     protected String value;
@@ -62,6 +67,11 @@ public class Status
 
     @Column(name="reason")
     protected String reason;
+
+    @XmlTransient
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="customer_agreement_id")
+    protected CustomerAgreement customerAgreementId;
 
     /**
      * Gets the value of the value property.
@@ -159,4 +169,19 @@ public class Status
         this.reason = value;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public CustomerAgreement getCustomerAgreementId() {
+        return customerAgreementId;
+    }
+
+    public void setCustomerAgreementId(CustomerAgreement customerAgreementId) {
+        this.customerAgreementId = customerAgreementId;
+    }
 }

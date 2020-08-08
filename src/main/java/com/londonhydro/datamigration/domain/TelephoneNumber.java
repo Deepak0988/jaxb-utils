@@ -8,8 +8,10 @@
 
 package com.londonhydro.datamigration.domain;
 
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -52,17 +54,39 @@ import javax.xml.bind.annotation.XmlType;
     "internationalPrefix",
     "ituPhone"
 })
+@Entity
+@Table(name="telephone_number")
 public class TelephoneNumber
     extends java.lang.Object
 {
 
+    @XmlTransient
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
+
+    @Column(name="country_code")
     protected String countryCode;
+
+    @Column(name="area_code")
     protected String areaCode;
+
+    @Column(name="city_code")
     protected String cityCode;
+
+    @Column(name="local_number")
     protected String localNumber;
+
+    @Column(name="ext")
     protected String ext;
+
+    @Column(name="dial_out")
     protected String dialOut;
+
+    @Column(name="international_prefix")
     protected String internationalPrefix;
+
+    @Column(name="itu_phone")
     protected String ituPhone;
 
     /**
@@ -257,4 +281,11 @@ public class TelephoneNumber
         this.ituPhone = value;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

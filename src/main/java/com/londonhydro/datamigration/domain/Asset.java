@@ -8,6 +8,7 @@
 
 package com.londonhydro.datamigration.domain;
 
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlSchemaType;
@@ -65,22 +66,49 @@ import javax.xml.bind.annotation.XmlType;
 @XmlSeeAlso({
     AssetContainer.class
 })
+@MappedSuperclass
 public class Asset
     extends IdentifiedObject
 {
-
+    @Column(name="type")
     protected String type;
+
+    @Column(name="utc_number")
     protected String utcNumber;
+
+    @Column(name="serial_number")
     protected String serialNumber;
+
+    @Column(name="lot_number")
     protected String lotNumber;
+
+    @Column(name="purchase_price")
     protected Long purchasePrice;
+
+    @Column(name="critical")
     protected Boolean critical;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="electronic_address")
     protected ElectronicAddress electronicAddress;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "lifecycle")
     protected LifecycleDate lifecycle;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "acceptance_test")
     protected AcceptanceTest acceptanceTest;
+
+    @Column(name="initial_condition")
     protected String initialCondition;
+
+    @Column(name="initial_loss_of_life")
     @XmlSchemaType(name = "integer")
     protected Integer initialLossOfLife;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="status")
     protected Status status;
 
     /**
